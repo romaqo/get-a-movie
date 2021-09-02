@@ -1,5 +1,6 @@
 package com.romaqo.getamovie;
 
+import com.romaqo.getamovie.entity.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -24,7 +25,8 @@ public class MovieSourceClient {
                                    movieId, apiKey);
         RequestEntity<Void> request = RequestEntity.get(url)
                                                    .accept(MediaType.APPLICATION_JSON).build();
-        Object jsonDictionary = restTemplate.exchange(request, responseType).getBody();
+        Object jsonDictionary = restTemplate.exchange(request, Movie.class).getBody();
+//        Object jsonDictionary = restTemplate.exchange(request, responseType).getBody();
         return jsonDictionary;
     }
 }
