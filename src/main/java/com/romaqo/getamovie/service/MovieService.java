@@ -1,30 +1,27 @@
 package com.romaqo.getamovie.service;
 
-import com.romaqo.getamovie.MovieSourceClient;
-import java.util.Random;
+import com.romaqo.getamovie.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MovieService {
 
-    private final MovieSourceClient client;
-    private final Random random;
+    private final MovieSource source;
+    private final RandomIdProvider randomIdProvider;
 
     @Autowired
-    public MovieService(MovieSourceClient client) {
-        this.client = client;
-        this.random = new Random();
+    public MovieService(MovieSource source, RandomIdProvider randomIdProvider) {
+        this.source = source;
+        this.randomIdProvider = randomIdProvider;
     }
 
-    public Object getRandomMovie() {
-        int movieId = getRandomId(0, 1000);
-        return client.sendGetMovieRequest(movieId);
+    public Movie getRandomMovie() {
+        int movieId = randomIdProvider.getRandomId(0, getLatestId());
+        return source.getMovieById(movieId);
     }
 
-    public int getRandomId(int min, int max) {
-        return random.ints(min, max)
-                     .findFirst()
-                     .getAsInt();
+    private int getLatestId() {
+        return source.getLatestMovie().getId();
     }
 }
