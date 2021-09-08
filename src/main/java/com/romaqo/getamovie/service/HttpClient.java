@@ -18,6 +18,6 @@ public class HttpClient {
     public Movie sendRequest(String url) {
         RequestEntity<Void> request = RequestEntity.get(url)
                                                    .accept(MediaType.APPLICATION_JSON).build();
-        return restTemplate.exchange(request, Movie.class).getBody();
+            return restTemplate.exchange(request, Movie.class).getBody();
     }
 }
