@@ -2,6 +2,7 @@ package com.romaqo.getamovie.service;
 
 import com.romaqo.getamovie.entity.Movie;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,6 +23,7 @@ public class MovieSourceClient implements MovieSource {
         return httpClient.sendRequest(url);
     }
 
+    @Cacheable("latestMovie")
     @Override
     public Movie getLatestMovie() {
         String url = String.format("https://api.themoviedb.org/3/movie/latest?api_key=%s&language=en-US",
